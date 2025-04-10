@@ -1,0 +1,15 @@
+C:\Workspaces\DotNet9\OrleansApp\OrleansApp.Domain\bin\Debug\net9.0\OrleansApp.Domain.deps.json
+C:\Workspaces\DotNet9\OrleansApp\OrleansApp.Domain\bin\Debug\net9.0\OrleansApp.Domain.dll
+C:\Workspaces\DotNet9\OrleansApp\OrleansApp.Domain\bin\Debug\net9.0\OrleansApp.Domain.pdb
+C:\Workspaces\DotNet9\OrleansApp\OrleansApp.Domain\obj\Debug\net9.0\OrleansApp.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Workspaces\DotNet9\OrleansApp\OrleansApp.Domain\obj\Debug\net9.0\OrleansApp.Domain.AssemblyInfoInputs.cache
+C:\Workspaces\DotNet9\OrleansApp\OrleansApp.Domain\obj\Debug\net9.0\OrleansApp.Domain.AssemblyInfo.cs
+C:\Workspaces\DotNet9\OrleansApp\OrleansApp.Domain\obj\Debug\net9.0\OrleansApp.Domain.csproj.CoreCompileInputs.cache
+C:\Workspaces\DotNet9\OrleansApp\OrleansApp.Domain\obj\Debug\net9.0\OrleansApp.Domain.dll
+C:\Workspaces\DotNet9\OrleansApp\OrleansApp.Domain\obj\Debug\net9.0\refint\OrleansApp.Domain.dll
+C:\Workspaces\DotNet9\OrleansApp\OrleansApp.Domain\obj\Debug\net9.0\OrleansApp.Domain.pdb
+C:\Workspaces\DotNet9\OrleansApp\OrleansApp.Domain\obj\Debug\net9.0\ref\OrleansApp.Domain.dll
+C:\Workspaces\DotNet9\OrleansApp\OrleansApp.Domain\bin\Debug\net9.0\OrleansApp.Common.dll
+C:\Workspaces\DotNet9\OrleansApp\OrleansApp.Domain\bin\Debug\net9.0\OrleansApp.Common.pdb
+C:\Workspaces\DotNet9\OrleansApp\OrleansApp.Domain\obj\Debug\net9.0\OrleansApp.Domain.csproj.AssemblyReference.cache
+C:\Workspaces\DotNet9\OrleansApp\OrleansApp.Domain\obj\Debug\net9.0\OrleansA.5B68E8A1.Up2Date

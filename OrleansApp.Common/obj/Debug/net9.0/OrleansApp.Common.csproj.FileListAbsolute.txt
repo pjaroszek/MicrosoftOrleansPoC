@@ -1,0 +1,12 @@
+C:\Workspaces\DotNet9\OrleansApp\OrleansApp.Common\bin\Debug\net9.0\OrleansApp.Common.deps.json
+C:\Workspaces\DotNet9\OrleansApp\OrleansApp.Common\bin\Debug\net9.0\OrleansApp.Common.dll
+C:\Workspaces\DotNet9\OrleansApp\OrleansApp.Common\bin\Debug\net9.0\OrleansApp.Common.pdb
+C:\Workspaces\DotNet9\OrleansApp\OrleansApp.Common\obj\Debug\net9.0\OrleansApp.Common.GeneratedMSBuildEditorConfig.editorconfig
+C:\Workspaces\DotNet9\OrleansApp\OrleansApp.Common\obj\Debug\net9.0\OrleansApp.Common.AssemblyInfoInputs.cache
+C:\Workspaces\DotNet9\OrleansApp\OrleansApp.Common\obj\Debug\net9.0\OrleansApp.Common.AssemblyInfo.cs
+C:\Workspaces\DotNet9\OrleansApp\OrleansApp.Common\obj\Debug\net9.0\OrleansApp.Common.csproj.CoreCompileInputs.cache
+C:\Workspaces\DotNet9\OrleansApp\OrleansApp.Common\obj\Debug\net9.0\OrleansApp.Common.dll
+C:\Workspaces\DotNet9\OrleansApp\OrleansApp.Common\obj\Debug\net9.0\refint\OrleansApp.Common.dll
+C:\Workspaces\DotNet9\OrleansApp\OrleansApp.Common\obj\Debug\net9.0\OrleansApp.Common.pdb
+C:\Workspaces\DotNet9\OrleansApp\OrleansApp.Common\obj\Debug\net9.0\ref\OrleansApp.Common.dll
+C:\Workspaces\DotNet9\OrleansApp\OrleansApp.Common\obj\Debug\net9.0\OrleansApp.Common.csproj.AssemblyReference.cache

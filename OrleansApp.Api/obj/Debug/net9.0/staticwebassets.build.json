@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "823lOBkuAz+5hPdaRUqJAhm7N3qvZGwW29RXV92kZlQ=",
+  "Source": "OrleansApp.Api",
+  "BasePath": "_content/OrleansApp.Api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}

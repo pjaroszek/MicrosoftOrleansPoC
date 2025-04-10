@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5000:80"
+      - "5001:443"
+      - "11111:11111"
+      - "30000:30000"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__SqlConnection=Server=sql-server;Database=OrleansDB;User=sa;Password=Your_Password123;TrustServerCertificate=True;
+      - ConnectionStrings__MongoConnection=mongodb://mongodb:27017
+    depends_on:
+      - sql-server
+      - mongodb
+      - seq
+
+  sql-server:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Your_Password123
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqldata:/var/opt/mssql
+
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodata:/data/db
+
+  seq:
+    image: datalust/seq:latest
+    environment:
+      - ACCEPT_EULA=Y
+    ports:
+      - "5341:80"
+      - "5342:5341"
+    volumes:
+      - seqdata:/data
+
+volumes:
+  sqldata:
+  mongodata:
+  seqdata:

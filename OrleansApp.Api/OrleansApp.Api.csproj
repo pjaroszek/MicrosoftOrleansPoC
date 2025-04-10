@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.4" />
+    <PackageReference Include="Microsoft.Orleans.Client" Version="9.1.2" />
+    <PackageReference Include="Microsoft.Orleans.Clustering.AdoNet" Version="9.1.2" />
+    <PackageReference Include="Microsoft.Orleans.Persistence.AdoNet" Version="9.1.2" />
+    <PackageReference Include="Microsoft.Orleans.Server" Version="9.1.2" />
+    <PackageReference Include="OrleansDashboard" Version="8.2.0" />
+    <PackageReference Include="OrleansDashboard.Core" Version="8.2.0" />
+    <PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
+    <PackageReference Include="Serilog.Enrichers.Environment" Version="3.0.1" />
+    <PackageReference Include="Serilog.Settings.Configuration" Version="9.0.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
+    <PackageReference Include="Serilog.Sinks.Seq" Version="9.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="8.1.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.9.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OrleansApp.Application\OrleansApp.Application.csproj" />
+    <ProjectReference Include="..\OrleansApp.Orleans.Grains\OrleansApp.Orleans.Grains.csproj" />
+    <ProjectReference Include="..\OrleansApp.Orleans.Interfaces\OrleansApp.Orleans.Interfaces.csproj" />
+    <ProjectReference Include="..\OrleansApp.Common\OrleansApp.Common.csproj" />
+  </ItemGroup>
+
+</Project>
