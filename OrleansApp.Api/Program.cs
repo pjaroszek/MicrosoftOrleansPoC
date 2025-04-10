@@ -1,14 +1,18 @@
-using System.ComponentModel.DataAnnotations;
-using System.Reflection;
+using System.Net;
 using Microsoft.OpenApi.Models;
+using Orleans.Configuration;
 using OrleansApp.Api.Middlewares;
 using OrleansApp.Common.DTOs;
 using OrleansApp.Common.Exceptions;
 using OrleansApp.Orleans.Interfaces;
 using Serilog;
-using OrleansApp.Orleans.Grains;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.ListenAnyIP(5080);
+});
 
 // Konfiguracja Serilog - PRZED budowaniem aplikacji
 Log.Logger = new LoggerConfiguration()
@@ -20,17 +24,11 @@ Log.Logger = new LoggerConfiguration()
 
 builder.Host.UseSerilog();
 
-// Konfiguracja Orleans - PRZED budowaniem aplikacji
 builder.Host.UseOrleans(siloBuilder =>
 {
     siloBuilder.UseLocalhostClustering();
     // Konfiguracja magazynu stanu w pamięci (dla PoC)
     siloBuilder.AddMemoryGrainStorage("SqlStateStore");
-
-    // siloBuilder.ConfigureServices(services => 
-    // {
-    //     services.AddGrainService<OrleansApp.Orleans.Grains.UserGrain>();
-    // });
     
     // Dodanie dashboardu Orleans
     siloBuilder.UseDashboard(options =>
@@ -40,6 +38,13 @@ builder.Host.UseOrleans(siloBuilder =>
         options.Host = "*";           // Pozwala na dostęp z dowolnego adresu
         options.Port = 5081;          // Port, na którym będzie dostępny dashboard
         options.HostSelf = true;      // Orleans sam obsługuje hosting dashboardu
+    });
+    
+    siloBuilder.Configure<EndpointOptions>(options =>
+    {
+        options.AdvertisedIPAddress = IPAddress.Parse("0.0.0.0");
+        options.SiloPort = 11111;
+        options.GatewayPort = 30000;
     });
     
     // Konfiguracja magazynu stanu w pamięci (dla PoC)
@@ -70,20 +75,20 @@ builder.Services.AddCors(options =>
     });
 });
 
-// TERAZ możemy zbudować aplikację
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+//if (app.Environment.IsDevelopment())
+//{
     app.MapOpenApi();
-}
+//}
 
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Orleans User API v1");
-    c.RoutePrefix = string.Empty; // Aby Swagger był dostępny pod adresem głównym
+    c.RoutePrefix = "swagger"; // Możesz również ustawić na pusty string, by Swagger był na stronie głównej
 });
 
 // Obsługa wyjątków - Middleware
@@ -186,8 +191,3 @@ usersGroup.MapDelete("/{id}", async (string id, IGrainFactory grainFactory) =>
 });
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
