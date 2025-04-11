@@ -1,9 +1,15 @@
 using System.Net;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Orleans.Configuration;
 using OrleansApp.Api.Middlewares;
+using OrleansApp.Application.Common;
+using OrleansApp.Application.Pit.Queries;
+using OrleansApp.Application.User.Commands;
+using OrleansApp.Application.User.Queries;
 using OrleansApp.Common.DTOs;
 using OrleansApp.Common.Exceptions;
+using OrleansApp.Infrastructure.Persistence;
 using OrleansApp.Orleans.Interfaces;
 using Serilog;
 
@@ -30,6 +36,12 @@ builder.Host.UseOrleans(siloBuilder =>
     // Konfiguracja magazynu stanu w pamięci (dla PoC)
     siloBuilder.AddMemoryGrainStorage("SqlStateStore");
     
+    siloBuilder.ConfigureServices(services => 
+    {
+        services.AddDbContext<AppDbContext>(options => 
+            options.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnectionString")));
+    });
+    
     // Dodanie dashboardu Orleans
     siloBuilder.UseDashboard(options =>
     {
@@ -52,6 +64,7 @@ builder.Host.UseOrleans(siloBuilder =>
 });
 
 // Add services to the container.
+builder.Services.AddMediator();
 builder.Services.AddOpenApi();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
@@ -100,14 +113,38 @@ app.UseCors("AllowAll");
 // Zdefiniowanie endpointów Minimal API
 var usersGroup = app.MapGroup("/api/users");
 
-// Pobierz użytkownika po ID
-usersGroup.MapGet("/{id}", async (string id, IGrainFactory grainFactory) =>
+
+usersGroup.MapGet("", async (IMediator mediator) =>
 {
-    var userGrain = grainFactory.GetGrain<IUserGrain>(id);
-    
     try
     {
-        var user = await userGrain.GetUserAsync();
+        var query = new GetAllQuery();
+        var user = await mediator.SendQueryAsync(query);
+        return Results.Ok(user);
+    }
+    catch (NotFoundException ex)
+    {
+        return Results.NotFound(new OrleansApp.Common.Models.ErrorResponse
+        {
+            StatusCode = StatusCodes.Status404NotFound,
+            Message = ex.Message
+        });
+    }
+    catch (Exception ex)
+    {
+        return Results.Problem(ex.Message);
+    }
+});
+
+
+
+// Pobierz użytkownika po ID
+usersGroup.MapGet("/{id}", async (string id, IMediator mediator) =>
+{
+    try
+    {
+        var query = new GetUserByIdQuery(id);
+        var user = await mediator.SendQueryAsync(query);
         return Results.Ok(user);
     }
     catch (NotFoundException ex)
@@ -125,18 +162,27 @@ usersGroup.MapGet("/{id}", async (string id, IGrainFactory grainFactory) =>
 });
 
 // Utwórz nowego użytkownika
-usersGroup.MapPost("/", async (UserDto user, IGrainFactory grainFactory) =>
+usersGroup.MapPost("/", async (UserDto user, IMediator mediator) =>
 {
-    // Generowanie ID jeśli nie zostało podane
     if (string.IsNullOrEmpty(user.Id))
-    {
-        user.Id = Guid.NewGuid().ToString();
-    }
+        {
+            user.Id = Guid.NewGuid().ToString();
+        }
+
+    var command = new AddNewUserCommand(user.Id,user.FirstName, user.LastName, user.Email, user.CreatedAt, user.UpdatedAt, user.IsActive, new List<string>());
     
-    var userGrain = grainFactory.GetGrain<IUserGrain>(user.Id);
-    await userGrain.UpdateUserAsync(user);
-    
-    return Results.Created($"/api/users/{user.Id}", user);
+    var result = await mediator.SendCommandAsync(command);
+
+    // // Generowanie ID jeśli nie zostało podane
+    // if (string.IsNullOrEmpty(user.Id))
+    // {
+    //     user.Id = Guid.NewGuid().ToString();
+    // }
+    //
+    // var userGrain = grainFactory.GetGrain<IUserGrain>(user.Id);
+    // await userGrain.UpdateUserAsync(user);
+    //
+     return Results.Created($"/api/users/{result.Id}", result);
 });
 
 // Aktualizuj użytkownika
